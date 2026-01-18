@@ -1,4 +1,4 @@
-<img width="1580" height="300" alt="image" src="https://github.com/user-attachments/assets/72744689-4f95-4294-90cb-f9ee48d81a71" />
+<img width="1580" height="300" alt="image" src="https://github.com/user-attachments/assets/3e71ee3e-7cdf-4e4c-8b76-8ac3a9ca3c54" />
 
 # Databricks-14-Day-AI-Challenge
 ### Databricks 14-Day AI Challenge sponsored by Databricks, organized by Indian Data Club & CodeBasics
