@@ -1,0 +1,274 @@
+{
+  "datasets": [
+    {
+      "name": "412fb008",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "-- Revenue trend (daily)\n",
+        "SELECT date(event_time) AS date, SUM(price) AS total_revenue \n",
+        "FROM delta.`dbfs:/Volumes/workspace/ecommerce/silver/events_delta` \n",
+        "GROUP BY date(event_time) ORDER BY date;"
+      ]
+    },
+    {
+      "name": "ee1d2dce",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "-- Top products\n",
+        "SELECT product_id, SUM(price) AS total_sales \n",
+        "FROM delta.`dbfs:/Volumes/workspace/ecommerce/silver/events_delta` \n",
+        "GROUP BY product_id ORDER BY total_sales DESC LIMIT 10;"
+      ]
+    },
+    {
+      "name": "dc462c70",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "-- Conversion funnel (view → cart → purchase example)\n",
+        "SELECT event_type, COUNT(*) AS event_count \n",
+        "FROM delta.`dbfs:/Volumes/workspace/ecommerce/silver/events_delta` \n",
+        "GROUP BY event_type ORDER BY event_count DESC;"
+      ]
+    },
+    {
+      "name": "8a22c6c3",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "-- Top products\n",
+        "SELECT brand, SUM(price) AS total_sales \n",
+        "FROM delta.`dbfs:/Volumes/workspace/ecommerce/silver/events_delta` \n",
+        "WHERE brand IS NOT NULL\n",
+        "GROUP BY brand ORDER BY total_sales DESC LIMIT 10;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "b133b3e6",
+      "displayName": "Main Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "00617846",
+            "queries": [
+              {
+                "name": "c0557c2cb0f14bf9828ce2fe2f1e1eee",
+                "query": {
+                  "datasetName": "412fb008",
+                  "fields": [
+                    {
+                      "name": "date",
+                      "expression": "`date`"
+                    },
+                    {
+                      "name": "column_8fbe77e632",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 0,
+              "viz_spec": {
+                "display_name": "Revenue Trend – Daily (Chart)",
+                "viz_type": "CHART",
+                "serialized_options": "{\"series\":{\"error_y\":{\"type\":\"data\",\"visible\":true},\"stacking\":null},\"coefficient\":1,\"yAxis\":[{\"type\":\"-\"},{\"opposite\":true,\"type\":\"-\"}],\"columnConfigurationMap\":{\"x\":{\"column\":\"date\",\"id\":\"column_8fbe77e631\"},\"y\":[{\"column\":\"total_revenue\",\"id\":\"column_8fbe77e632\",\"transform\":\"SUM\"}]},\"alignYAxesAtZero\":true,\"direction\":{\"type\":\"counterclockwise\"},\"swappedAxes\":false,\"percentFormat\":\"0[.]00%\",\"textFormat\":\"\",\"legend\":{\"traceorder\":\"normal\"},\"globalSeriesType\":\"line\",\"version\":2,\"sizemode\":\"diameter\",\"seriesOptions\":{\"column_8fbe77e632\":{\"name\":\"total_revenue\",\"yAxis\":0}},\"error_y\":{\"type\":\"data\",\"visible\":true},\"sortX\":true,\"showDataLabels\":false,\"missingValuesAsZero\":true,\"useAggregationsUi\":true,\"numberFormat\":\"0,0.[00000]\",\"dateTimeFormat\":\"DD/MM/YYYY HH:mm\",\"sortY\":true,\"valuesOptions\":{},\"xAxis\":{\"labels\":{\"enabled\":true},\"type\":\"-\"}}",
+                "query_name": "c0557c2cb0f14bf9828ce2fe2f1e1eee"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "7ecd48da",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dc462c70",
+                  "fields": [
+                    {
+                      "name": "sum(event_count)",
+                      "expression": "SUM(`event_count`)"
+                    },
+                    {
+                      "name": "event_type",
+                      "expression": "`event_type`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(event_count)",
+                  "displayName": "event_count",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "event_type",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "title": "Funnel Counts (Chart)",
+                "showTitle": true
+              },
+              "mark": {
+                "layout": "group"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 7,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "8912bf62",
+            "queries": [
+              {
+                "name": "dashboards/01f0faa763281e11876c8d3204fc0612/datasets/01f0faa7632914b8963b79e7b5cd27f0_date",
+                "query": {
+                  "datasetName": "412fb008",
+                  "fields": [
+                    {
+                      "name": "date",
+                      "expression": "`date`"
+                    },
+                    {
+                      "name": "date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "date",
+                    "queryName": "dashboards/01f0faa763281e11876c8d3204fc0612/datasets/01f0faa7632914b8963b79e7b5cd27f0_date"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "e0de0fad",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8a22c6c3",
+                  "fields": [
+                    {
+                      "name": "sum(total_sales)",
+                      "expression": "SUM(`total_sales`)"
+                    },
+                    {
+                      "name": "brand",
+                      "expression": "`brand`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(total_sales)",
+                  "displayName": "total_sales",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "brand",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "title": "Top 10 Products (Chart)",
+                "showTitle": true
+              },
+              "mark": {
+                "layout": "group"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 3,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
