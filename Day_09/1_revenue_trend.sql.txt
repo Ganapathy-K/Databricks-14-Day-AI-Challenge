@@ -1,0 +1,4 @@
+-- Revenue trend (daily)
+SELECT date(event_time) AS date, SUM(price) AS total_revenue 
+FROM delta.`dbfs:/Volumes/workspace/ecommerce/silver/events_delta` 
+GROUP BY date(event_time) ORDER BY date;
