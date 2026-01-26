@@ -3,7 +3,7 @@
 This project demonstrates:
 - Revenue trend analysis
 - Funnel analysis (View → Cart → Purchase)
-- Top brands/products by revenue
+- Top brands by revenue
 - Interactive dashboard with date filters
 - Scheduled refresh using Databricks SQL
 
