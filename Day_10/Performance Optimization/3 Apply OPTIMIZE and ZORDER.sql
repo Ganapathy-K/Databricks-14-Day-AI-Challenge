@@ -1,0 +1,2 @@
+%sql
+OPTIMIZE ecommerce_partitioned ZORDER BY (brand, product_id);
